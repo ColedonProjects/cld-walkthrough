@@ -1,3 +1,4 @@
+"use client";
 import "./styles/walkthrough.css";
 
 import { useCallback, useEffect, useRef, useState } from "react";

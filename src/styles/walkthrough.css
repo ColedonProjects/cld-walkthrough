@@ -1,0 +1,284 @@
+/* Overlay */
+.walkthrough-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9998;
+  pointer-events: auto;
+}
+
+.walkthrough-overlay::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+  opacity: 0;
+  clip-path: inset(0);
+  transition: opacity 0.2s ease, clip-path 0.25s ease;
+}
+
+.walkthrough-overlay.has-spotlight::before {
+  opacity: 1;
+  clip-path: var(--spotlight-path);
+  clip-rule: evenodd;
+}
+
+body.walkthrough-active {
+  overflow: hidden;
+}
+
+/* Highlight */
+.walkthrough-highlight-wrapper {
+  position: fixed;
+  z-index: 10000;
+  pointer-events: none;
+  overflow: hidden;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  animation: walkthrough-pulse 2s ease-in-out infinite;
+}
+
+.walkthrough-highlight-clone {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.walkthrough-highlight-border {
+  position: absolute;
+  inset: 0;
+  border: 3px solid hsl(var(--primary));
+  border-radius: inherit;
+  box-shadow:
+    0 0 0 4px hsl(var(--primary) / 0.2),
+    0 0 20px hsl(var(--primary) / 0.4),
+    0 0 40px hsl(var(--primary) / 0.25);
+  pointer-events: none;
+}
+
+.walkthrough-elevated-original {
+  position: relative !important;
+  z-index: 10002 !important;
+  isolation: isolate;
+}
+
+@keyframes walkthrough-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 4px hsl(var(--primary) / 0.2),
+      0 0 20px hsl(var(--primary) / 0.4),
+      0 0 40px hsl(var(--primary) / 0.2);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 6px hsl(var(--primary) / 0.3),
+      0 0 30px hsl(var(--primary) / 0.5),
+      0 0 60px hsl(var(--primary) / 0.3);
+  }
+}
+
+/* Tooltip */
+.walkthrough-tooltip {
+  position: absolute;
+  z-index: 10001;
+  min-width: 280px;
+  max-width: 400px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  pointer-events: auto;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.dark .walkthrough-tooltip {
+  background-color: #1f2937;
+  color: #f9fafb;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.walkthrough-tooltip::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.walkthrough-tooltip[data-position="top"]::before {
+  bottom: -8px;
+  left: calc(50% + var(--arrow-offset, 0px));
+  transform: translateX(-50%);
+  border-width: 8px 8px 0 8px;
+  border-color: white transparent transparent transparent;
+}
+
+.dark .walkthrough-tooltip[data-position="top"]::before {
+  border-color: #1f2937 transparent transparent transparent;
+}
+
+.walkthrough-tooltip[data-position="bottom"]::before {
+  top: -8px;
+  left: calc(50% + var(--arrow-offset, 0px));
+  transform: translateX(-50%);
+  border-width: 0 8px 8px 8px;
+  border-color: transparent transparent white transparent;
+}
+
+.dark .walkthrough-tooltip[data-position="bottom"]::before {
+  border-color: transparent transparent #1f2937 transparent;
+}
+
+.walkthrough-tooltip[data-position="right"]::before {
+  left: -8px;
+  top: calc(50% + var(--arrow-offset, 0px));
+  transform: translateY(-50%);
+  border-width: 8px 8px 8px 0;
+  border-color: transparent white transparent transparent;
+}
+
+.dark .walkthrough-tooltip[data-position="right"]::before {
+  border-color: transparent #1f2937 transparent transparent;
+}
+
+.walkthrough-tooltip[data-position="left"]::before {
+  right: -8px;
+  top: calc(50% + var(--arrow-offset, 0px));
+  transform: translateY(-50%);
+  border-width: 8px 0 8px 8px;
+  border-color: transparent transparent transparent white;
+}
+
+.dark .walkthrough-tooltip[data-position="left"]::before {
+  border-color: transparent transparent transparent #1f2937;
+}
+
+.walkthrough-tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.walkthrough-tooltip-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+.dark .walkthrough-tooltip-title {
+  color: #f9fafb;
+}
+
+.walkthrough-tooltip-step-count {
+  font-size: 12px;
+  margin-top: 6px;
+  font-weight: 500;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.dark .walkthrough-tooltip-step-count {
+  color: #9ca3af;
+}
+
+.walkthrough-tooltip-description {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #4b5563;
+  margin: 0 0 12px 0;
+}
+
+.dark .walkthrough-tooltip-description {
+  color: #d1d5db;
+}
+
+.walkthrough-tooltip-category {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  color: hsl(var(--primary));
+  background-color: hsl(var(--primary) / 0.15);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.dark .walkthrough-tooltip-category {
+  color: hsl(var(--primary));
+  background-color: hsl(var(--primary) / 0.25);
+}
+
+.walkthrough-tooltip-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.walkthrough-tooltip-actions-right {
+  display: flex;
+  gap: 8px;
+}
+
+.dark .walkthrough-tooltip-actions {
+  border-top-color: #374151;
+}
+
+.walkthrough-button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  outline: none;
+}
+
+.walkthrough-button-primary {
+  background-color: hsl(var(--primary));
+  color: white;
+}
+
+.walkthrough-button-primary:hover {
+  filter: brightness(0.9);
+}
+
+.walkthrough-button-secondary {
+  background-color: transparent;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.dark .walkthrough-button-secondary {
+  color: #9ca3af;
+  border-color: #4b5563;
+}
+
+.walkthrough-button-ghost {
+  background-color: transparent;
+  color: #6b7280;
+  border: none;
+  outline: none;
+}
+

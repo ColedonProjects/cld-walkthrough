@@ -1,0 +1,21 @@
+{
+  "steps": [
+    {
+      "stepCategory": "Getting Started",
+      "pageUrl": "/settings/global",
+      "stepName": "Open Global Settings",
+      "stepDescription": "Use this page to configure your tenant branding and defaults.",
+      "highlightElement": "global-settings-tab",
+      "tooltipPosition": "right"
+    },
+    {
+      "stepCategory": "Branding",
+      "pageUrl": "/settings/global?page=appearance",
+      "stepName": "Upload Your Logo",
+      "stepDescription": "Select the logo upload field to add your branding assets.",
+      "highlightElement": "logo-upload",
+      "tooltipPosition": "right"
+    }
+  ]
+}
+
